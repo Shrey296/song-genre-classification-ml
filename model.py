@@ -7,12 +7,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
 
-df = pd.read_csv("Currents.csv")
+df = pd.read_csv("Spotify Playlist Dataset.csv")
 
 # Removes rows with missing Genres
 df = df.dropna(subset=["Genres"])
 
-# Broad Genre Categorization
+# Broad genre categorization
 def categorize(g):
     g = g.lower()
     if any(k in g for k in ["rap", "hip hop", "trap"]):
@@ -31,13 +31,13 @@ def categorize(g):
 
 df["BroadGenre"] = df["Genres"].apply(categorize)
 
-# 12 Audio Features
+# Selecting 12 audio features
 feature_cols = [
     "Danceability", "Energy", "Key", "Mode", "Loudness",
     "Speechiness", "Acousticness", "Instrumentalness",
     "Liveness", "Valence", "Tempo", "Time Signature"
 ]
-
+# Removes rows where any of the selected features are missing
 df = df.dropna(subset=feature_cols)
 
 X = df[feature_cols]
@@ -48,7 +48,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# Standardization
+# Standardize feature values so that each feature contributes equally to the model
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
@@ -60,14 +60,14 @@ model.fit(X_train_scaled, y_train)
 # Predictions
 y_pred = model.predict(X_test_scaled)
 
-# Accuracy
+# Model accuracy
 accuracy = accuracy_score(y_test, y_pred)
-print("Model Accuracy:", accuracy)
+print(f"Model Accuracy: {accuracy * 100:.2f}%")
 
 print("\nClassification Report:\n")
 print(classification_report(y_test, y_pred))
 
-# Confusion Matrix
+# Confusion matrix plot
 cm = confusion_matrix(y_test, y_pred, labels=model.classes_)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_)
 disp.plot(xticks_rotation=45)
@@ -75,7 +75,7 @@ plt.title("Confusion Matrix")
 plt.tight_layout()
 plt.show()
 
-# Feature Importance
+# Feature importance plot
 importance = np.mean(np.abs(model.coef_), axis=0)
 importance_series = pd.Series(importance, index=feature_cols).sort_values()
 
