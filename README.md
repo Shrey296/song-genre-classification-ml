@@ -5,3 +5,7 @@ I first removed unnecessary or missing values, particularly in the “Genres” 
 Next, I selected twelve numerical audio features provided by Spotify, including Danceability, Energy, Key, Mode, Loudness, Speechiness, Acousticness, Instrumentalness, Liveness, Valence, Tempo, and Time Signature. These features were standardized using StandardScaler to ensure uniform scaling and prevent any single feature from dominating due to differences in measurement units.
 
 I then trained a Logistic Regression model, which is a foundational machine learning algorithm widely used for classification tasks. The model performance was then evaluated using accuracy, a classification report and a confusion matrix. A feature importance chart was also plotted to identify which audio characteristics had the greatest influence on predictions. The model achieved an accuracy of approximately 69.3%. Based on the evaluation results, the model demonstrated strong predictive capability, indicating that the selected features and preprocessing steps were effective for genre classification.
+
+<img width="600" height="600" alt="image" src="https://github.com/user-attachments/assets/cb9e5103-a349-4e22-994a-457f5121a2f8" />
+
+<img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/5e72855b-8f1d-45b5-8f3f-c4875940f34f" />
